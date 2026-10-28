@@ -543,7 +543,7 @@ static status_code_t get_system_status (const struct webui_cmd_binding *command,
     if(hal.get_free_mem)
         vfs_puts(strappend(buf, 3, "free mem", btoa(hal.get_free_mem()), WEBUI_EOL), file);
     vfs_puts(strappend(buf, 3, "CPU Frequency: ", uitoa(hal.f_mcu ? hal.f_mcu : hal.f_step_timer / 1000000UL), "MHz" WEBUI_EOL), file);
-    vfs_puts(strappend(buf, 7, "FW version: ", GRBL_VERSION, "(", uitoa(GRBL_BUILD), ")(", hal.info, ")" WEBUI_EOL), file);
+    vfs_puts(strappend(buf, 5, "FW version: ", FIRMWARE_VERSION, "(", hal.info, ")" WEBUI_EOL), file);
     vfs_puts(strappend(buf, 3, "Driver version: ", hal.driver_version, WEBUI_EOL), file);
     if(hal.board)
         vfs_puts(strappend(buf, 3, "Board: ", hal.board, WEBUI_EOL), file);
@@ -643,7 +643,7 @@ static status_code_t get_firmware_spec (const struct webui_cmd_binding *command,
     network_info_t *network = webui_get_server_info();
 
     strcpy(buf, "FW version:");
-    strcat(buf, GRBL_VERSION);
+    strcat(buf, FIRMWARE_VERSION);
     strcat(buf, " # FW target:grbl-embedded # FW HW:");
 #if FS_ENABLE & FS_SDCARD
     strcat(buf, "Direct SD");

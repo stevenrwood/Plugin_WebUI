@@ -934,7 +934,7 @@ status_code_t webui_v3_get_system_status (uint_fast16_t command_id, uint_fast16_
             ok = ok & json_add_value(jstream, "sd", buf);
 
             ok = ok & json_add_value(jstream, "targetfw", FIRMWARE_TARGET);
-            strappend(buf, 3, GRBL_VERSION, "-", uitoa(GRBL_BUILD));
+            strcpy(buf, FIRMWARE_VERSION);
             ok = ok & json_add_value(jstream, "FW ver", buf);
             ok = ok & json_add_value(jstream, "FW arch", hal.info);
             ok = ok & json_end_array(jstream);
@@ -1008,7 +1008,7 @@ status_code_t webui_v3_get_system_status (uint_fast16_t command_id, uint_fast16_
         else
             vfs_puts("sd: none" WEBUI_EOL, file);
         vfs_puts("targetfw: " FIRMWARE_TARGET WEBUI_EOL, file);
-        vfs_puts(strappend(buf, 5, "FW ver: ", GRBL_VERSION, "-", uitoa(GRBL_BUILD), WEBUI_EOL), file);
+        vfs_puts(strappend(buf, 3, "FW ver: ", FIRMWARE_VERSION, WEBUI_EOL), file);
         vfs_puts(strappend(buf, 3, "FW arch: ", hal.info, WEBUI_EOL), file);
     }
 
@@ -1351,7 +1351,7 @@ static status_code_t get_firmware_spec (const struct webui_cmd_binding *command,
 
         if((ok = !!(jstream = json_create_response_hdr(command->id, ResponseHdrType_AddObject, true, NULL, file)))) {
 
-            ok = ok & json_add_string(jstream, "FWVersion", GRBL_VERSION);
+            ok = ok & json_add_string(jstream, "FWVersion", FIRMWARE_VERSION);
             ok = ok & json_add_string(jstream, "FWTarget", FIRMWARE_TARGET);
             ok = ok & json_add_string(jstream, "FWTargetID", FIRMWARE_ID);
             ok = ok & json_add_string(jstream, "Setup", "Enabled");
@@ -1393,7 +1393,7 @@ static status_code_t get_firmware_spec (const struct webui_cmd_binding *command,
         }
     } else {
 
-        vfs_puts("FW version:" GRBL_VERSION WEBUI_EOL, file);
+        vfs_puts("FW version:" FIRMWARE_VERSION WEBUI_EOL, file);
         vfs_puts("FW target:" FIRMWARE_TARGET WEBUI_EOL, file);
         vfs_puts("FW ID:" FIRMWARE_ID WEBUI_EOL, file);
         vfs_puts(strappend(buf, 3, "SD connection:", sdfs ? "direct" : "none", WEBUI_EOL), file);
